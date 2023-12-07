@@ -2,8 +2,8 @@
 #include <IRremote.hpp>
 #include <WiFi.h>
 #include <WiFiMulti.h>
-// #include <freertos/FreeRTOS.h>
-// #include <freertos/task.h>
+ #include <freertos/FreeRTOS.h>
+ #include <freertos/task.h>
 #include <ESP32Servo.h>
 
 #define IR_RECEIVE_PIN 25

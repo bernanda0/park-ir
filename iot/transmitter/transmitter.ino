@@ -2,6 +2,7 @@
 #include <IRremote.hpp>
 #include "PinDefinitionsAndMore.h"  // Define macros for input and output pin etc.
 #include <BluetoothSerial.h>
+#include <Preferences.h>
 
 #define IR_SEND_PIN         25
 #define IR_SEND_PIN_STRING "25"
@@ -11,6 +12,7 @@
 // this hardcoded, example VID958F6538
 uint32_t plateID = 0;
 BluetoothSerial SerialBT; //variabel untuk serial monitor BT
+Preferences preferences;
 bool BT_isOn = false; //Boolean untuk menandakan BT sudah on atau belum
 bool BT_isConnected = false; //Boolean untuk menandakan BT sudah terhubung atau tidak
 bool btn_toggle = false;
@@ -48,7 +50,7 @@ void vBTinit(void *pvParam){
   while(1){
     if(btn_toggle == true && BT_isOn == false){
       //Memulai SerialBT
-      SerialBT.begin("esp2");
+      SerialBT.begin("esp69");
       BT_isOn = true; //mengubah boolean menjadi true
       Serial.println("Bluetooth telah dimulai");
     
@@ -74,6 +76,11 @@ void vBTtask(void *pvParam){
       command = SerialBT.readStringUntil('\n');
       Serial.println(command);
       plateID = strtoul(command.c_str(), NULL, 16);
+      preferences.begin("my-id", false);
+      preferences.putUInt("plateID", plateID);
+      preferences.end();
+
+
     }
     vTaskDelay(100 / portTICK_PERIOD_MS);
 
@@ -90,10 +97,13 @@ void setup() {
   #endif
     // Just to know which program is running on my Arduino
     Serial.println(F("START " __FILE__ " from " __DATE__ "\r\nUsing library version " VERSION_IRREMOTE));
+    
     IrSender.begin(IR_SEND_PIN); // Start with IR_SEND_PIN as send pin and enable feedback LED at default feedback LED pin
     Serial.println(F("Send IR signals at pin " IR_SEND_PIN_STRING));
     Serial.println(F("Send IR signals at pin " STR(IR_SEND_PIN)));
-
+    preferences.begin("my-id", false);
+    plateID =  preferences.getUInt("plateID", 0);
+    preferences.end();
     xTaskCreatePinnedToCore(vBTinit, "BT init", 2048, NULL, 1, NULL, 0);
     xTaskCreatePinnedToCore(vButtonRead, "button read", 2048, NULL, 1, NULL, 0);
     xTaskCreatePinnedToCore(vBTtask, "SerialBT read", 2048, NULL, 1, NULL, 0);
