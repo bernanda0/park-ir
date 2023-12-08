@@ -20,7 +20,13 @@ const int trigPin = 32;
 const int echoPin = 35;
 long duration;
 float distanceCm;
-// ini seharusnya didapat dr transmitter
+static TaskHandle_t xIRTaskHandle = NULL;
+static TaskHandle_t xHTTPTaskHandle = NULL;
+static TaskHandle_t xCallbackTaskHandle = NULL;
+static TaskHandle_t xSensorTaskHandle = NULL;
+
+
+
 String g_receivedID;
 char receivedID[20];
 const char location[120] = "Parkiran Digi";
@@ -32,21 +38,37 @@ WiFiMulti wifiMulti;
 SemaphoreHandle_t httpSemaphore, receiverSemaphore;
 
 void taskIRReceiver(void *pvParameters) {
+  int delayInterval = 0;
+  int pos;
   while (1) { 
     if(distanceCm <= 5){
       if (IrReceiver.decode() && readAgain) {
         if (IrReceiver.decodedIRData.protocol == UNKNOWN) {
-            Serial.printf("Received noise or an unknown protocol wait 1 seconds %d\n", counter++);      
+            Serial.printf("Received noise or an unknown protocol wait 1 seconds %d\n", counter++);
+            delayInterval = 1;
+
         } else {
             sprintf(receivedID, "VID%08X", IrReceiver.decodedIRData.decodedRawData);
             Serial.printf("%s\n", receivedID);
             xSemaphoreGive(receiverSemaphore); 
+            delayInterval = 1000;
         }
         IrReceiver.resume();
       }
     }else{
-      myservo.write(0);    // tell servo to go to position in variable 'pos'
-    }
+      xSemaphoreTake(receiverSemaphore, 0); 
+      delay(delayInterval);
+      vTaskResume(xHTTPTaskHandle);
+      pos = myservo.read();
+      if(pos > 90){
+        pos = 0;
+      }
+    for (pos; pos >= 0; pos -= 1) { // goes from 0 degrees to 180 degrees
+        // in steps of 1 degree
+        myservo.write(pos);              // tell servo to go to position in variable 'pos'
+        delay(5);                       // waits 15 ms for the servo to reach the position
+      }      //vTaskSuspend(xIRTaskHandle);
+          }
     vTaskDelay(1000 / portTICK_PERIOD_MS);
   }
 }
@@ -67,8 +89,9 @@ void taskHTTPClient(void *pvParameters) {
 
         if (httpResponseCode == 200) {
           Serial.println("Request Success");
-          xSemaphoreGive(httpSemaphore); // Trigger other tasks
+          xSemaphoreGive(httpSemaphore); // Trigger other tasks          
           readAgain = false;
+          vTaskSuspend(xHTTPTaskHandle);
         } else {
           Serial.print("HTTP Response code: ");
           Serial.println(httpResponseCode);
@@ -86,20 +109,22 @@ void taskHTTPClient(void *pvParameters) {
 }
 
 void onRequestSuccess(void *pvParameters) {
+  int pos;
   while (1) {
     if (xSemaphoreTake(httpSemaphore, portMAX_DELAY) == pdTRUE) {
       digitalWrite(LED_BUILTIN, HIGH); // Turn on the LED
       vTaskDelay(300 / portTICK_PERIOD_MS); // Keep the LED on for 1 second
       digitalWrite(LED_BUILTIN, LOW); // Turn off the LED
-      
-      // Control the DC motor to open the gate
-      //digitalWrite(MOTOR_PIN, HIGH);
-      myservo.write(90);    // tell servo to go to position in variable 'pos'
-      vTaskDelay(1000 / portTICK_PERIOD_MS); // Run the motor for 1 second
-      digitalWrite(MOTOR_PIN, LOW);
 
+    for (pos = 0; pos <= 90; pos += 1) { // goes from 0 degrees to 180 degrees
+        // in steps of 1 degree
+        myservo.write(pos);              // tell servo to go to position in variable 'pos'
+        delay(5);                       // waits 15 ms for the servo to reach the position
+      }      //vTaskSuspend(xIRTaskHandle);
+      
       readAgain = true;
     }
+    
     vTaskDelay(10 / portTICK_PERIOD_MS);
   }
 }
@@ -116,6 +141,7 @@ void vSensorTask(void *pvParam){
     duration = pulseIn(echoPin, HIGH);
     // Calculate the distance
     distanceCm = duration * SOUND_SPEED/2;
+    Serial.println(distanceCm);
     vTaskDelay(pdMS_TO_TICKS(100)); //memberikan delay
 
   }
@@ -145,10 +171,10 @@ void setup() {
   httpSemaphore = xSemaphoreCreateBinary();
   receiverSemaphore = xSemaphoreCreateBinary();
   
-  xTaskCreatePinnedToCore(taskHTTPClient, "HTTPClient", 10000, NULL, 1, NULL, 0);
-  xTaskCreatePinnedToCore(taskIRReceiver, "IRReceiver", 10000, NULL, 1, NULL, 0);
-  xTaskCreatePinnedToCore(onRequestSuccess, "RequestSuccessCallback", 10000, NULL, 1, NULL, 0);
-  xTaskCreatePinnedToCore(vSensorTask, "SensorTask", 10000, NULL, 2, NULL, 1);
+  xTaskCreatePinnedToCore(taskHTTPClient, "HTTPClient", 10000, NULL, 1, &xHTTPTaskHandle, 0);
+  xTaskCreatePinnedToCore(taskIRReceiver, "IRReceiver", 10000, NULL, 1, &xIRTaskHandle, 0);
+  xTaskCreatePinnedToCore(onRequestSuccess, "RequestSuccessCallback", 10000, NULL, 1, &xCallbackTaskHandle, 0);
+  xTaskCreatePinnedToCore(vSensorTask, "SensorTask", 10000, NULL, 2, &xSensorTaskHandle, 1);
 
 
 }
