@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="#A80000"
+    tools:context=".MainActivity">
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:text="Hello"
+            android:textColor="@color/black"
+            android:textSize="32dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="bernanda"
+            android:textColor="@color/black"
+            android:textSize="24dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="120dp"
+        android:background="@drawable/rounded_edge"
+        android:backgroundTint="@color/white"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        tools:layout_editor_absoluteX="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/balance_place_holder"
+            android:layout_width="match_parent"
+            android:layout_height="83dp"
+            android:background="@drawable/rounded_edge"
+            android:backgroundTint="@color/white"
+            android:elevation="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/icon_id"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_marginStart="16dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/baseline_numbers_24"
+                android:tint="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@android:color/transparent" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="24dp"
+                android:text="Your VID"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/icon_id"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_subscribed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="44dp"
+                android:text="Subscribed"
+                android:textColor="@color/black"
+                android:textSize="10sp"
+                app:layout_constraintStart_toEndOf="@+id/icon_id"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/the_vid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="32dp"
+                android:text="YH78IU76"
+                android:textColor="@color/black"
+                android:textSize="24dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:text="VID"
+                android:textColor="@color/black"
+
+                android:textSize="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/the_vid"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.491" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/connect_bluetooth_button"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="16dp"
+        android:backgroundTint="#CD0000"
+        android:drawableEnd="@drawable/baseline_bluetooth_24"
+        android:drawableTint="#FFFFFF"
+        android:text="SEND ID VIA BLUETOOTH"
+        android:textSize="16dp"
+        app:cornerRadius="21dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.09" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
