@@ -162,6 +162,7 @@ void setup() {
   while (wifiMulti.run() != WL_CONNECTED) {
     delay(1000);
     Serial.println("Connecting to WiFi...");
+    
   }
   Serial.print("Connected to WiFi in ");
   Serial.print(WiFi.localIP());
