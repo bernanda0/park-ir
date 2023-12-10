@@ -63,10 +63,10 @@ Unique user IDs sent via Bluetooth from user devices to transmitters, ensuring a
 
 ### Input plate number
 
-![input-plate](https://raw.githubusercontent.com/bernanda0/park-ir/master/assets/input-plate.png)
+![input-plate](https://raw.githubusercontent.com/bernanda0/park-ir/master/assets/input-plate.jpg)
 
 ### Choose BT device
 
-![instructions-bt](https://raw.githubusercontent.com/bernanda0/park-ir/master/assets/instructions-bt.png)
+![instructions-bt](https://raw.githubusercontent.com/bernanda0/park-ir/master/assets/instructions-bt.jpg)
 
-![choose-bt](https://raw.githubusercontent.com/bernanda0/park-ir/master/assets/choose-bt.png)
+![choose-bt](https://raw.githubusercontent.com/bernanda0/park-ir/master/assets/choose-bt.jpg)
