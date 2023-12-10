@@ -213,10 +213,7 @@ String decrypt_impl(char *msg, byte iv[])
 // Generate IV (once)
 void aes_init()
 {
-    String test = "HELLO WORLD!";
-    Serial.println("gen_iv()");
     aesLib.gen_iv(aes_iv);
-    Serial.println("encrypt_impl()");
     Serial.println(encrypt_impl(strdup(test.c_str()), aes_iv));
 }
 
