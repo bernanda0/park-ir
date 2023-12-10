@@ -8,12 +8,12 @@ This project aims to address parking management challenges by leveraging innovat
 
 ## Contributors
 
-Group Q17:
+Group A3:
 
-- [ALTHAF NAFI ANWAR](https://www.github.com/althafnafi) - 2106634881
-- [BERNANDA NAUTVAL R.I.W.](https://www.github.com/bernanda0) - 2106708463
-- [MICHAEL GUNAWAN](https://www.github.com/Michaeltzy) - 2106731195
-- [RAYHAN AKBAR ARRIZKY](https://www.github.com/rayhan-akbar) - 2106632655
+- [Althaf Nafi Anwar](https://www.github.com/althafnafi) - 2106634881
+- [Bernanda Nautval R.I.W.](https://www.github.com/bernanda0) - 2106708463
+- [Michael Gunawan](https://www.github.com/Michaeltzy) - 2106731195
+- [Rayhan Akbar Arrizky](https://www.github.com/rayhan-akbar) - 2106632655
 
 ## Key features and components
 
