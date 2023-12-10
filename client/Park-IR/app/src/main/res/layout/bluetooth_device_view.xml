@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="00:11:22:33:44:01"
-            android:textColor="#FFE0E0E0"
+            android:textColor="#474747"
             android:textSize="12sp"
             android:textStyle="bold"
             app:lineHeight="24dp" />

@@ -8,9 +8,11 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,19 +34,23 @@ class BluetoothActivity : AppCompatActivity() {
     private var REQUEST_ENABLE_BT = 0;
     private var REQUEST_BLUETOOTH_PERMISSION = 1
     private val discoveredBluetooth = ArrayList<DataClass.Bluetooth>()
-    private val discoveredDevices = mutableListOf<String>() // List to store discovered devices
-    private val discoveredMac = mutableListOf<String>() // List to store discovered devices
     private lateinit var deviceInterface: SimpleBluetoothDeviceInterface
     private lateinit var pairedDevices : Collection<BluetoothDevice>;
     private lateinit var listView: ListView
     private lateinit var bluetoothManager : BluetoothManager
+    private lateinit var preferensi: SharedPreferences
+    private var mContext: Context? = null
+    private var vid: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bluetooth)
         supportActionBar?.hide()
+        mContext = this
+        this.preferensi = PreferenceManager.getDefaultSharedPreferences(this)
+        this.vid = this.preferensi.getString("vid", "").toString().removePrefix("VID")
         connectBluetoothButton = findViewById(R.id.connect_bluetooth_button)
-        connectBluetoothButton.setOnClickListener {bluetoothConnect()}
+        connectBluetoothButton.setOnClickListener { bluetoothConnect() }
     }
 
     private fun bluetoothConnect() {
@@ -74,7 +80,6 @@ class BluetoothActivity : AppCompatActivity() {
         pairedDevices = bluetoothManager.pairedDevicesList
         val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
         startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
-        Toast.makeText(this, "Bluetooth already active", Toast.LENGTH_SHORT).show()
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -109,13 +114,11 @@ class BluetoothActivity : AppCompatActivity() {
                     error
                 )
             })
-
-        // Let's send a message:
-        deviceInterface.sendMessage("958F6538")
+        deviceInterface.sendMessage(vid)
     }
     private fun onMessageSent(message: String) {
         // We sent a message! Handle it here.
-        Toast.makeText(this@BluetoothActivity, "Sent a message! Message was: $message", Toast.LENGTH_LONG)
+        Toast.makeText(this@BluetoothActivity, "VID$message sent successfully to the device", Toast.LENGTH_LONG)
             .show() // Replace context with your context instance.
     }
 
@@ -139,9 +142,9 @@ class BluetoothActivity : AppCompatActivity() {
         if (requestCode == REQUEST_BLUETOOTH_PERMISSION) {
             // Check if the permission has been granted
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Bluetooth Permission Granted", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "Bluetooth Permission Granted", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "Bluetooth Permission not granted", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "Bluetooth Permission not granted", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -157,24 +160,22 @@ class BluetoothActivity : AppCompatActivity() {
             }
             .setCancelable(false)
             .create()
+        alertDialog.window?.setBackgroundDrawableResource(R.drawable.rounded_edge)
         listView = view.findViewById(R.id.list_bluetooth)
 
-        discoveredDevices.clear()
-        discoveredMac.clear()
+       discoveredBluetooth.clear()
 
         pairedDevices.forEach {
-//            discoveredDevices.add(it.name)
-//            discoveredMac.add(it.address)
             discoveredBluetooth.add(DataClass.Bluetooth(it.name, it.address))
         }
 
-        val arrayAdapter = CustomAdapter(this, discoveredDevices)
+        val arrayAdapter = CustomAdapter(this, discoveredBluetooth)
         listView.adapter = arrayAdapter
         listView.setOnItemClickListener { parent, view, position, id ->
             // Handle item click here
-            val selectedItem = discoveredMac[position]
-            Toast.makeText(this@BluetoothActivity, selectedItem, Toast.LENGTH_SHORT).show()
-            connectDevice(selectedItem)
+            Toast.makeText(mContext, "Try to sent "+vid, Toast.LENGTH_SHORT).show()
+            val selectedItem = discoveredBluetooth.get(position)
+            connectDevice(selectedItem.Mac)
         }
         alertDialog.show()
     }
@@ -183,7 +184,7 @@ class BluetoothActivity : AppCompatActivity() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
             var itemView = convertView
             if (itemView == null) {
-                itemView = LayoutInflater.from(context).inflate(R.layout.bluetooth_modal, parent, false)
+                itemView = LayoutInflater.from(context).inflate(R.layout.bluetooth_device_view, parent, false)
             }
 
             // Get the current item from the data list

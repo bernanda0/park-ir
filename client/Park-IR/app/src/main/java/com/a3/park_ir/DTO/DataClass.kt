@@ -20,6 +20,15 @@ class DataClass {
         val Valid: Boolean
     )
 
+    data class Wallet (
+        val balance: NullInt
+    )
+
+    data class NullInt (
+        val Int32: Int,
+        val Valid: Boolean
+    )
+
     data class Bluetooth (
         val Name : String,
         val Mac : String
