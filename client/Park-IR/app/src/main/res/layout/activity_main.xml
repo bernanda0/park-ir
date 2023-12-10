@@ -12,10 +12,9 @@
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="44dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -37,23 +36,116 @@
             android:textSize="24dp" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="357dp"
+        android:layout_height="302dp"
+        android:layout_marginVertical="21dp"
+        android:src="@drawable/hello_illustration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginVertical="12dp"
         android:background="@drawable/rounded_edge"
         android:backgroundTint="@color/white"
         android:orientation="vertical"
         android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
         tools:layout_editor_absoluteX="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/balance_place_holder"
             android:layout_width="match_parent"
             android:layout_height="83dp"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginBottom="12dp"
+            android:paddingTop="3dp"
+            android:background="@drawable/rounded_edge"
+            android:backgroundTint="@color/red_100"
+            android:elevation="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/icon_balance"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/baseline_account_balance_wallet_24"
+                android:tint="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@android:color/transparent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="10dp"
+                android:text="Wallet Summary"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/icon_balance"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="30dp"
+                android:text="Total Balance"
+                android:textColor="@color/black"
+                android:textSize="10sp"
+                app:layout_constraintStart_toEndOf="@+id/icon_balance"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/total_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="23dp"
+                android:layout_marginBottom="11dp"
+                android:text="Rp0"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/topUp"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:text="TOP UP"
+                android:textAlignment="center"
+                android:backgroundTint="@color/red_700"
+                android:drawableEnd="@drawable/baseline_topup_24"
+                android:drawableTint="@color/white"
+                android:textSize="13sp"
+                app:cornerRadius="21dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/baseline_topup_24" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/vid_placeholder"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="83dp"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginBottom="12dp"
             android:background="@drawable/rounded_edge"
             android:backgroundTint="@color/white"
             android:elevation="3dp"
@@ -124,26 +216,80 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.491" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/reg_plate_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/rounded_edge"
+            android:backgroundTint="@color/white"
+            android:elevation="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="16dp"
+                android:text="Input plate number"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.chaos.view.PinView
+                android:id="@+id/plate_pinview"
+                style="@style/PinWidget.PinView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:cursorVisible="true"
+                android:gravity="center"
+                android:inputType="textCapCharacters"
+                android:itemBackground="@color/white"
+                app:hideLineWhenFilled="false"
+                app:itemCount="8"
+                app:itemHeight="50dp"
+                app:itemRadius="10dp"
+                app:itemWidth="36dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.504"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView3"
+                app:layout_constraintVertical_bias="0.285" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/connect_bluetooth_button"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="60dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#CD0000"
+            android:drawableEnd="@drawable/baseline_bluetooth_24"
+            android:drawableTint="#FFFFFF"
+            android:text="SEND ID VIA BLUETOOTH"
+            android:textSize="16dp"
+            app:cornerRadius="21dp" />
 
-    <Button
-        android:id="@+id/connect_bluetooth_button"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginHorizontal="16dp"
-        android:backgroundTint="#CD0000"
-        android:drawableEnd="@drawable/baseline_bluetooth_24"
-        android:drawableTint="#FFFFFF"
-        android:text="SEND ID VIA BLUETOOTH"
-        android:textSize="16dp"
-        app:cornerRadius="21dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintVertical_bias="0.09" />
+        <Button
+            android:id="@+id/register_plate"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/yellow"
+            android:drawableEnd="@drawable/baseline_directions_car_24"
+            android:drawableTint="@color/black"
+            android:text="REGISTER YOUR PLATE"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            app:cornerRadius="21dp" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

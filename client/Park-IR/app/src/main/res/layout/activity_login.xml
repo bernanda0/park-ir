@@ -9,14 +9,14 @@
     android:gravity="center"
     android:orientation="vertical"> <!-- Add this line -->
 
-    <TextView
+    <ImageView
         android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="240dp"
+        android:layout_height="119dp"
         android:gravity="center"
-        android:text="PARKIR"
-        android:textSize="48sp"
-        android:textColor="@color/black" />
+        android:src="@drawable/park_ir_title"
+        android:textColor="@color/black"
+        android:textSize="48sp" />
 
     <LinearLayout
         android:id="@+id/login_form"
@@ -48,13 +48,13 @@
             android:id="@+id/login_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/red_700"
             android:paddingHorizontal="16dp"
             android:paddingVertical="12dp"
             android:text="LOGIN"
             android:textAllCaps="false"
-            app:cornerRadius="21dp"
             android:textColor="@color/white"
-            android:backgroundTint="@color/black" />
+            app:cornerRadius="21dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -77,8 +77,8 @@
             android:text="Register Now"
             android:textAlignment="center"
             android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textStyle="bold"/>
+            android:textColor="@color/red_900"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

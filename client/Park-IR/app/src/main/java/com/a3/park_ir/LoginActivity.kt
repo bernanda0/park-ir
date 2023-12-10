@@ -53,14 +53,14 @@ class LoginActivity : AppCompatActivity() {
 
     protected fun handleLogin() {
         // handling empty field
-//        val emailS: String = email.getText().toString()
-//        val passwordS: String = password.getText().toString()
-//        if (emailS.isEmpty() || passwordS.isEmpty()) {
-//            viewToast(mContext, "Field cannot be empty")
-//            return
-//        }
-        val emailS = "halo123@gmail.com"
-        val passwordS = "halo123"
+        val emailS: String = email.getText().toString()
+        val passwordS: String = password.getText().toString()
+        if (emailS.isEmpty() || passwordS.isEmpty()) {
+            Toast.makeText(this@LoginActivity, "Field cannot be empty!", Toast.LENGTH_SHORT).show()
+            return
+        }
+//        val emailS = "halo123@gmail.com"
+//        val passwordS = "halo123"
 
         // case if not empty then make a request
         mApiService.login(emailS, passwordS).enqueue(object : Callback<DataClass.LoginResponse> {
