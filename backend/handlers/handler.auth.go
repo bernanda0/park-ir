@@ -138,6 +138,13 @@ func (auth_h *AuthHandler) signup(w http.ResponseWriter, r *http.Request) error 
 		return err
 	}
 
+	wallet, err := auth_h.h.q.AddWallet(r.Context(), utils.StringToNullString(account.AccountID))
+	auth_h.h.l.Println(wallet)
+	if err != nil {
+		http.Error(w, "Error creating account wallet", http.StatusInternalServerError)
+		return err
+	}
+
 	w.WriteHeader(http.StatusCreated)
 	toJSON(w, account)
 	return nil

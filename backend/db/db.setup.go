@@ -18,7 +18,10 @@ func Instantiate(l *log.Logger) (*sql.DB, *sqlc.Queries) {
 	if DB_HOST == "localhost:5432" {
 		ssl = "?sslmode=disable"
 	}
+
+	// connection_string := "postgresql://" + DB_NAME + "?host=" + DB_HOST + "&user=" + DB_USER + "&password=" + DB_PASS + ssl
 	connection_string := "postgresql://" + DB_USER + ":" + DB_PASS + "@" + DB_HOST + "/" + DB_NAME + ssl
+	l.Println(connection_string)
 
 	db, err1 := sql.Open(os.Getenv("DB_DRIVER"), connection_string)
 	if err1 != nil {

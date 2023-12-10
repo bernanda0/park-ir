@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS vehicle_data;
 DROP TABLE IF EXISTS account;
 DROP TABLE IF EXISTS logs;
+DROP TABLE IF EXIStS wallet;
 
 CREATE SEQUENCE IF NOT EXISTS user_id_seq;
 CREATE TABLE IF NOT EXISTS account (
@@ -28,6 +29,15 @@ CREATE TABLE IF NOT EXISTS logs (
     v_id VARCHAR(32),
     location VARCHAR(32),
     ip_address VARCHAR(32)
+);
+
+CREATE SEQUENCE IF NOT EXISTS wallet_id_seq;
+CREATE TABLE IF NOT EXISTS wallet (
+    wallet_id VARCHAR(32) DEFAULT 'WID' || nextval('wallet_id_seq') || to_char(current_timestamp, 'YYYYMMDDHH24MISS') || nextval('wallet_id_seq'),
+    account_id VARCHAR(32),
+    balance INTEGER,
+    PRIMARY KEY (wallet_id),
+    FOREIGN KEY (account_id) REFERENCES account(account_id)
 );
 
 CREATE INDEX IF NOT EXISTS acc_id_index ON account(account_id);

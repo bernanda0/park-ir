@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"hash/fnv"
+	"strconv"
 )
 
 func GeneratePlateID(plate string) string {
@@ -32,4 +33,12 @@ func StringToNullString(s string) sql.NullString {
 		return sql.NullString{String: s, Valid: true}
 	}
 	return sql.NullString{Valid: false}
+}
+
+func StringToNullInt(s string) sql.NullInt32 {
+	if s != "" {
+		value, _ := strconv.ParseInt(s, 10, 32)
+		return sql.NullInt32{Int32: int32(value), Valid: true}
+	}
+	return sql.NullInt32{Valid: false}
 }

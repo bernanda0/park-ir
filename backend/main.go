@@ -22,13 +22,13 @@ import (
 func main() {
 	l := log.New(os.Stdout, "RED-GATE-SERVER-", log.LstdFlags)
 	ctx := context.Background()
-	certFile := flag.String("certfile", "park-ir-be.site+4.pem", "certificate PEM file")
-	keyFile := flag.String("keyfile", "park-ir-be.site+4-key.pem", "key PEM file")
+	certFile := flag.String("certfile", "park-ir-be.site+5.pem", "certificate PEM file")
+	keyFile := flag.String("keyfile", "park-ir-be.site+5-key.pem", "key PEM file")
 	flag.Parse()
 
 	env := os.Getenv("APP_ENV")
 	if env == "" {
-		env = "remote"
+		env = "remote.2"
 	}
 	// load env
 	err := godotenv.Load(".env." + env)
@@ -98,6 +98,7 @@ func defineMultiplexer(l *log.Logger, q *sqlc.Queries) http.Handler {
 	auth_handler := handlers.NewAuthHandler(l, q, &u, &token)
 	token_handler := handlers.NewTokenHandler(l, q, &u, &token)
 	plate_handler := handlers.NewPlateIDHandler(l, q, &u)
+	wallet_hanlder := handlers.NewWalletHandler(l, q, &u)
 
 	// handle multiplexer
 	mux := http.NewServeMux()
@@ -111,6 +112,9 @@ func defineMultiplexer(l *log.Logger, q *sqlc.Queries) http.Handler {
 	mux.HandleFunc("/plate/getID", plate_handler.GetPlateIDHandler)
 	mux.HandleFunc("/plate/verify", plate_handler.VerifyPlateHandler)
 	mux.HandleFunc("/logs", plate_handler.GetLogs)
+
+	mux.HandleFunc("/wallet/balance", wallet_hanlder.GetBalance)
+	mux.HandleFunc("/wallet/topUp", wallet_hanlder.TopUpHandler)
 
 	corsMiddleware := cors.AllowAll().Handler
 

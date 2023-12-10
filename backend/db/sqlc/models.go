@@ -44,3 +44,9 @@ type VehicleDatum struct {
 	AccountID   sql.NullString `json:"account_id"`
 	PlateNumber sql.NullString `json:"plate_number"`
 }
+
+type Wallet struct {
+	WalletID  string         `json:"wallet_id"`
+	AccountID sql.NullString `json:"account_id"`
+	Balance   sql.NullInt32  `json:"balance"`
+}
